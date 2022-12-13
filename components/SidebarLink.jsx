@@ -1,4 +1,4 @@
-const SidebarLink = ({ Icon, text, active }) => {
+function SidebarLink({ Icon, text, active }) {
   return (
     <div>
       <Icon className="h-7 text-white" />
@@ -6,5 +6,4 @@ const SidebarLink = ({ Icon, text, active }) => {
   );
 }
 
-export default SidebarLink
-
+export default SidebarLink;

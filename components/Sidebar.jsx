@@ -36,7 +36,7 @@ function Sidebar() {
       <div className="text-[#d9d9d9] flex items-center justify-center hoverAnimation xl:ml-auto xl:-mr-5 mt-auto">
         <img
           src="https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?w=2000"
-          className="w-10 h-10 rounded-full xl:mr-2.5 "
+          className="w-10 h-10 rounded-full xl:mr-2.5"
         />
         <div className="hidden xl:inline leading-5">
           <h4 className="font-bold">some@</h4>

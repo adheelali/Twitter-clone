@@ -1,10 +1,18 @@
 import React, { useRef, useState } from "react";
-import { Close } from "@mui/icons-material";
-import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import {
+  Close,
+  CameraAltOutlined,
+  SentimentVerySatisfied,
+  CalendarMonth,
+  BarChart,
+} from "@mui/icons-material";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 function Input() {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [showEmojis, setShowEmogis] = useState(false);
   const filePickerRef = useRef(null);
 
   const addImageToPost = () => {};
@@ -49,7 +57,7 @@ function Input() {
         <div className="flex items-center justify-between pt-2.5 ">
           <div className="flex items-center">
             <div className="icon" onClick={() => filePickerRef.current.click()}>
-              <CameraAltOutlinedIcon className="h-[22px] text-[#1d9bf0]" />
+              <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
               <input
                 type="file"
                 hidden
@@ -57,6 +65,19 @@ function Input() {
                 ref={filePickerRef}
               />
             </div>
+            <div className="icon rotate-90">
+              <BarChart className="h-[22px] text-[#1d9bf0]" />
+            </div>
+            <div className="icon" onClick={() => setShowEmogis(!showEmojis)}>
+              <SentimentVerySatisfied className="h-[22px] text-[#1d9bf0]" />
+            </div>
+            <div className="icon">
+              <CalendarMonth className="h-[22px] text-[#1d9bf0]" />
+            </div>
+
+            {showEmojis && (
+              <Picker data={data} onEmojiSelect={console.log} theme="dark" />
+            )}
           </div>
         </div>
       </div>

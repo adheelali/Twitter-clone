@@ -130,7 +130,7 @@ function Input() {
               <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
               <input
                 type="file"
-                accept="image/*,.pdf"
+                accept="image/*"
                 hidden
                 onChange={addImageToPost}
                 ref={filePickerRef}

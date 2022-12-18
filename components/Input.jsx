@@ -8,14 +8,84 @@ import {
 } from "@mui/icons-material";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { db, storage } from "../firebase";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "@firebase/firestore";
+import {
+  getDownloadURL,
+  ref,
+  updateMetadata,
+  uploadString,
+} from "@firebase/storage";
 
 function Input() {
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const [showEmojis, setShowEmogis] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // used to click the camera icon
   const filePickerRef = useRef(null);
 
-  const addImageToPost = () => {};
+  //sending the post and image to firebase firestore and storage
+  const sendPost = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    const docRef = await addDoc(collection(db, "posts"), {
+      // id: session.user.uid,
+      // username: session.user.name,
+      // userImg: session.user.image,
+      // tag: session.user.tag,
+      text: input,
+      timestamp: serverTimestamp(),
+    });
+
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
+
+    if (selectedFile) {
+      await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+      });
+    }
+
+    setLoading(false);
+    setInput("");
+    setSelectedFile(null);
+    setShowEmogis(false);
+  };
+
+  // getting the image by the onchange function and displaying on the input
+  //error
+  const addImageToPost = (e) => {
+    console.log(e.target.files[0])
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target.result);
+    };
+
+    console.log(selectedFile)
+  };
+
+  const addEmoji = (e) => {
+    let sym = e.unified.split("-");
+    let codesArray = [];
+    sym.forEach((el) => codesArray.push("0x" + el));
+    let emoji = String.fromCodePoint(...codesArray);
+    setInput(input + emoji);
+  };
 
   return (
     <div
@@ -27,7 +97,7 @@ function Input() {
         className="w-11 h-11 rounded-full cursor-pointer"
       />
       <div className="w-full divide-y divide-gray-700">
-        <div className={``}>
+        <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -40,8 +110,8 @@ function Input() {
           {selectedFile && (
             <div className="relative">
               <div
-                className="absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] bg-opacity-75 rounded-full flex 
-              item-center justify-center top-1 left-1 cursor-pointer"
+                className="absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] bg-opacity-75 rounded-full flex
+                 items-center justify-center top-1 left-1 cursor-pointer"
                 onClick={() => setSelectedFile(null)}
               >
                 <Close className="text-white h-5" />
@@ -60,6 +130,7 @@ function Input() {
               <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
               <input
                 type="file"
+                accept="image/*,.pdf"
                 hidden
                 onChange={addImageToPost}
                 ref={filePickerRef}
@@ -76,9 +147,16 @@ function Input() {
             </div>
 
             {showEmojis && (
-              <Picker data={data} onEmojiSelect={console.log} theme="dark" />
+              <Picker data={data} onEmojiSelect={addEmoji} theme="dark" />
             )}
           </div>
+          <button
+            onClick={sendPost}
+            disabled={!input.trim() && !selectedFile}
+            className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+          >
+            Tweet
+          </button>
         </div>
       </div>
     </div>

@@ -26,6 +26,7 @@
     @apply cursor-pointer w-9 h-9 hover:bg-[#1d9df0] hover:bg-opacity-10 flex items-center justify-center
      rounded-full transition ease-out;
   }
+  
   em-emoji-picker {
     position: absolute;
     margin-top: 20px;

@@ -66,7 +66,7 @@ function Input() {
   // getting the image by the onchange function and displaying on the input
   //error
   const addImageToPost = (e) => {
-    console.log(e.target.files[0])
+    console.log(e.target.files[0]);
     const reader = new FileReader();
     if (e.target.files[0]) {
       reader.readAsDataURL(e.target.files[0]);
@@ -76,7 +76,7 @@ function Input() {
       setSelectedFile(readerEvent.target.result);
     };
 
-    console.log(selectedFile)
+    console.log(selectedFile);
   };
 
   const addEmoji = (e) => {
@@ -89,7 +89,8 @@ function Input() {
 
   return (
     <div
-      className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll whitespace-nowrap scrollbar-hide`}
+      className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll whitespace-nowrap scrollbar-hide
+      ${loading && "opacity-60"}`}
     >
       <img
         src="https://img.freepik.com/free-vector/vector-illustration-mountain-landscape_1441-72.jpg?w=2000"
@@ -124,40 +125,45 @@ function Input() {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-between pt-2.5 ">
-          <div className="flex items-center">
-            <div className="icon" onClick={() => filePickerRef.current.click()}>
-              <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={addImageToPost}
-                ref={filePickerRef}
-              />
-            </div>
-            <div className="icon rotate-90">
-              <BarChart className="h-[22px] text-[#1d9bf0]" />
-            </div>
-            <div className="icon" onClick={() => setShowEmogis(!showEmojis)}>
-              <SentimentVerySatisfied className="h-[22px] text-[#1d9bf0]" />
-            </div>
-            <div className="icon">
-              <CalendarMonth className="h-[22px] text-[#1d9bf0]" />
-            </div>
+        {!loading && (
+          <div className="flex items-center justify-between pt-2.5 ">
+            <div className="flex items-center">
+              <div
+                className="icon"
+                onClick={() => filePickerRef.current.click()}
+              >
+                <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={addImageToPost}
+                  ref={filePickerRef}
+                />
+              </div>
+              <div className="icon rotate-90">
+                <BarChart className="h-[22px] text-[#1d9bf0]" />
+              </div>
+              <div className="icon" onClick={() => setShowEmogis(!showEmojis)}>
+                <SentimentVerySatisfied className="h-[22px] text-[#1d9bf0]" />
+              </div>
+              <div className="icon">
+                <CalendarMonth className="h-[22px] text-[#1d9bf0]" />
+              </div>
 
-            {showEmojis && (
-              <Picker data={data} onEmojiSelect={addEmoji} theme="dark" />
-            )}
+              {showEmojis && (
+                <Picker data={data} onEmojiSelect={addEmoji} theme="dark" />
+              )}
+            </div>
+            <button
+              onClick={sendPost}
+              disabled={!input.trim() && !selectedFile}
+              className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+            >
+              Tweet
+            </button>
           </div>
-          <button
-            onClick={sendPost}
-            disabled={!input.trim() && !selectedFile}
-            className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
-          >
-            Tweet
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

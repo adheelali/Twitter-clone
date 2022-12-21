@@ -18,7 +18,7 @@ function Sidebar() {
         <img src="https://rb.gy/ogau5a" alt="" width={30} height={30} />
       </div>
       <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24 ">
-        <SidebarLink text="Home" Icon={Home} active />
+        <SidebarLink text="Home" Icon={Home} />
         <SidebarLink text="Explore" Icon={Tag} />
         <SidebarLink text="Notifications" Icon={NotificationsNone} />
         <SidebarLink text="Messages" Icon={InboxOutlined} />

@@ -33,4 +33,8 @@
     margin-left: -190px;
     max-width: 320px;
   }
+
+  .sidebarLink--active {
+    font-weight: bold;
+  }
 }

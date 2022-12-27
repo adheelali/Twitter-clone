@@ -1,11 +1,9 @@
 import React, { useRef, useState } from "react";
-import {
-  Close,
-  CameraAltOutlined,
-  SentimentVerySatisfied,
-  CalendarMonth,
-  BarChart,
-} from "@mui/icons-material";
+import CloseIcon from '@mui/icons-material/Close';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { db, storage } from "../firebase";
@@ -118,7 +116,7 @@ function Input() {
                  items-center justify-center top-1 left-1 cursor-pointer"
                 onClick={() => setSelectedFile(null)}
               >
-                <Close className="text-white h-5" />
+                <CloseIcon className="text-white h-5" />
               </div>
               <img
                 src={selectedFile}
@@ -135,7 +133,7 @@ function Input() {
                 className="icon"
                 onClick={() => filePickerRef.current.click()}
               >
-                <CameraAltOutlined className="h-[22px] text-[#1d9bf0]" />
+                <CameraAltOutlinedIcon className="h-[22px] text-[#1d9bf0]" />
                 <input
                   type="file"
                   accept="image/*"
@@ -145,13 +143,13 @@ function Input() {
                 />
               </div>
               <div className="icon rotate-90">
-                <BarChart className="h-[22px] text-[#1d9bf0]" />
+                <BarChartIcon className="h-[22px] text-[#1d9bf0]" />
               </div>
               <div className="icon" onClick={() => setShowEmogis(!showEmojis)}>
-                <SentimentVerySatisfied className="h-[22px] text-[#1d9bf0]" />
+                <SentimentVerySatisfiedIcon className="h-[22px] text-[#1d9bf0]" />
               </div>
               <div className="icon">
-                <CalendarMonth className="h-[22px] text-[#1d9bf0]" />
+                <CalendarMonthIcon className="h-[22px] text-[#1d9bf0]" />
               </div>
 
               {showEmojis && (

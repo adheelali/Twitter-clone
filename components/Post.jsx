@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { MoreHoriz, Chat, Delete, CompareArrows, FavoriteBorder, Favorite, Share, BarChart } from "@mui/icons-material";
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ChatIcon from '@mui/icons-material/Chat';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { useSession } from "next-auth/react";
 import {
   collection,
@@ -66,7 +73,7 @@ function Post({ id, post, postPage }) {
             )}
           </div>
           <div className="icon group flex-shrink-0 ml-auto">
-            <MoreHoriz className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
+            <MoreHorizIcon className="h-5 text-[#6e767d] group-hover:text-[#1d9bf0]" />
           </div>
         </div>
         {postPage && (
@@ -95,7 +102,7 @@ function Post({ id, post, postPage }) {
             }}
           >
             <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10">
-              <Chat className="h-5 group-hover:text-[#1d9bf0]" />
+              <ChatIcon className="h-5 group-hover:text-[#1d9bf0]" />
             </div>
             {comments.length > 0 && (
               <span className="group-hover:text-[#1d9bf0] text-sm">
@@ -114,13 +121,13 @@ function Post({ id, post, postPage }) {
               }}
             >
               <div className="icon group-hover:bg-red-600/10">
-                <Delete className="h-5 group-hover:text-red-600" />
+                <DeleteIcon className="h-5 group-hover:text-red-600" />
               </div>
             </div>
           ) : (
             <div className="flex items-center space-x-1 group">
               <div className="icon group-hover:bg-green-500/10">
-                <CompareArrows className="h-5 group-hover:text-green-500" />
+                <CompareArrowsIcon className="h-5 group-hover:text-green-500" />
               </div>
             </div>
           )}
@@ -134,9 +141,9 @@ function Post({ id, post, postPage }) {
           >
             <div className="icon group-hover:bg-pink-600/10">
               {liked ? (
-                <Favorite className="h-5 text-pink-600" />
+                <FavoriteIcon className="h-5 text-pink-600" />
               ) : (
-                <FavoriteBorder className="h-5 group-hover:text-pink-600" />
+                <FavoriteBorderIcon className="h-5 group-hover:text-pink-600" />
               )}
             </div>
             {likes.length > 0 && (
@@ -151,10 +158,10 @@ function Post({ id, post, postPage }) {
           </div> */}
 
           <div className="icon group">
-            <Share className="h-5 group-hover:text-[#1d9bf0]" />
+            <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
           <div className="icon group">
-            <BarChart className="h-5 group-hover:text-[#1d9bf0]" />
+            <BarChartIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
 
 

@@ -1,16 +1,13 @@
-import Image from "next/legacy/image";
 import SidebarLink from "./SidebarLink";
-import {
-  Home,
-  Tag,
-  NotificationsNone,
-  PersonOutlined,
-  InboxOutlined,
-  BookmarkBorderOutlined,
-  PendingOutlined,
-  MoreHoriz,
-  ListAltOutlined,
-} from "@mui/icons-material";
+import HomeIcon from '@mui/icons-material/Home';
+import TagIcon from '@mui/icons-material/Tag';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import InboxOutlinedIcon from '@mui/icons-material/InboxOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import { signOut, useSession } from "next-auth/react";
 
 function Sidebar() {
@@ -21,14 +18,14 @@ function Sidebar() {
         <img src="https://rb.gy/ogau5a" alt="" width={30} height={30} />
       </div>
       <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24 ">
-        <SidebarLink text="Home" Icon={Home} />
-        <SidebarLink text="Explore" Icon={Tag} />
-        <SidebarLink text="Notifications" Icon={NotificationsNone} />
-        <SidebarLink text="Messages" Icon={InboxOutlined} />
-        <SidebarLink text="Bookmarks" Icon={BookmarkBorderOutlined} />
-        <SidebarLink text="Lists" Icon={ListAltOutlined} />
-        <SidebarLink text="Profile" Icon={PersonOutlined} />
-        <SidebarLink text="More" Icon={PendingOutlined} />
+        <SidebarLink text="Home" Icon={HomeIcon} />
+        <SidebarLink text="Explore" Icon={TagIcon} />
+        <SidebarLink text="Notifications" Icon={NotificationsNoneIcon} />
+        <SidebarLink text="Messages" Icon={InboxOutlinedIcon} />
+        <SidebarLink text="Bookmarks" Icon={BookmarkBorderOutlinedIcon} />
+        <SidebarLink text="Lists" Icon={ListAltOutlinedIcon} />
+        <SidebarLink text="Profile" Icon={PersonOutlinedIcon} />
+        <SidebarLink text="More" Icon={PendingOutlinedIcon} />
       </div>
       <button
         className="hidden xl:inline ml-auto bg-[#1d9bf0] text-white rounded-full w-56 h-[52px] text-lg font-bold
@@ -48,7 +45,7 @@ function Sidebar() {
           <h4 className="font-bold">{session.user.name}</h4>
           <p className="text-[#6e767d]">{session.user.tag}</p>
         </div>
-        <MoreHoriz className="h-5 hidden xl:inline ml-10" />
+        <MoreHorizIcon className="h-5 hidden xl:inline ml-10" />
       </div>
     </div>
   );

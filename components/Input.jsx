@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import CloseIcon from "@mui/icons-material/Close";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { db, storage } from "../firebase";
@@ -14,15 +14,11 @@ import {
   serverTimestamp,
   updateDoc,
 } from "@firebase/firestore";
-import {
-  getDownloadURL,
-  ref,
-  uploadString,
-} from "@firebase/storage";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { useSession } from "next-auth/react";
 
 function Input() {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);

@@ -32,9 +32,19 @@ function Post({ id, post, postPage }) {
   const [liked, setliked] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    console.log(id)
-  }, [postId])
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => {
+          setComments(snapshot.docs);
+        }
+      ),
+    [db, id]
+  );
 
   useEffect(
     () =>
@@ -74,7 +84,7 @@ function Post({ id, post, postPage }) {
           className="h-11 w-11 rounded-full mr-4"
         />
       )}
-      <div className="felx flex-col space-y-2 w-full">
+      <div className="flex flex-col space-y-2 w-full">
         <div className={`flex ${!postPage && "justify-between"}`}>
           {postPage && (
             <img

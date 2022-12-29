@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ChatIcon from '@mui/icons-material/Chat';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import ChatIcon from "@mui/icons-material/Chat";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import { useSession } from "next-auth/react";
 import {
   collection,
@@ -26,11 +26,47 @@ import { useRecoilState } from "recoil";
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useRecoilState(modelState);
+  const [postId, setPostId] = useRecoilState(postIdState);
   const [comments, setComments] = useState([]);
-  const router = useRouter()
+  const [likes, setLikes] = useState([]);
+  const [liked, setliked] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(id)
+  }, [postId])
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "posts", id, "likes"), (snapshot) => {
+        setLikes(snapshot.docs);
+      }),
+    [db, id]
+  );
+
+  useEffect(
+    () =>
+      setliked(
+        likes.findIndex((like) => like.id === session?.user?.uid) !== -1
+      ),
+    [likes]
+  );
+
+  const likePost = async () => {
+    if (liked) {
+      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+    } else {
+      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+        username: session.user.name,
+      });
+    }
+  };
 
   return (
-    <div className="p-3 flex cursor-pointer border-b border-gray-700">
+    <div
+      className="p-3 flex cursor-pointer border-b border-gray-700"
+      onClick={() => router.push(`/${id}`)}
+    >
       {!postPage && (
         <img
           src={post?.userImg}
@@ -64,7 +100,7 @@ function Post({ id, post, postPage }) {
             </div>{" "}
             .{" "}
             <span className="hover:underline text-sm sm:text-[15px]">
-              {/* <Moment fromNow>{post?.timestamp.toDate()}</Moment> */}
+              <Moment fromNow>{post?.timestamp.toDate()}</Moment>
             </span>
             {!postPage && (
               <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">
@@ -91,9 +127,7 @@ function Post({ id, post, postPage }) {
             postPage && "mx-auto"
           }`}
         >
-
-
-<div
+          <div
             className="flex items-center space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
@@ -132,7 +166,7 @@ function Post({ id, post, postPage }) {
             </div>
           )}
 
-          {/* <div
+          <div
             className="flex items-center space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
@@ -155,7 +189,7 @@ function Post({ id, post, postPage }) {
                 {likes.length}
               </span>
             )}
-          </div> */}
+          </div>
 
           <div className="icon group">
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />
@@ -163,9 +197,6 @@ function Post({ id, post, postPage }) {
           <div className="icon group">
             <BarChartIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
-
-
-
         </div>
       </div>
     </div>

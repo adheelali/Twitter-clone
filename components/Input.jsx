@@ -17,7 +17,6 @@ import {
 import {
   getDownloadURL,
   ref,
-  updateMetadata,
   uploadString,
 } from "@firebase/storage";
 import { useSession } from "next-auth/react";

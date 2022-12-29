@@ -3,9 +3,13 @@ import Feed from "../components/Feed";
 import Sidebar from "../components/Sidebar";
 import Login from "../components/Login";
 import { getProviders, getSession, useSession } from "next-auth/react";
+import Model from "../components/Model";
+import { useRecoilState } from "recoil";
+import { modelState } from "../atoms/modelAtom";
 
 export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
+  const [isopen, setIsopen] = useRecoilState(modelState)
 
   if (!session) return <Login providers={providers}/>
 
@@ -17,6 +21,8 @@ export default function Home({ trendingResults, followResults, providers }) {
       <main className="flex min-h-screen text-white max-w-[1500px] mx-auto ">
         <Sidebar />
         <Feed />
+        {isopen && <Model />}
+        
       </main>
     </div>
   );

@@ -6,12 +6,13 @@ import { getProviders, getSession, useSession } from "next-auth/react";
 import Model from "../components/Model";
 import { useRecoilState } from "recoil";
 import { modelState } from "../atoms/modelAtom";
+import Widget from "../components/Widget";
 
 export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
-  const [isopen, setIsopen] = useRecoilState(modelState)
+  const [isopen, setIsopen] = useRecoilState(modelState);
 
-  if (!session) return <Login providers={providers}/>
+  if (!session) return <Login providers={providers} />;
 
   return (
     <div className="">
@@ -21,8 +22,12 @@ export default function Home({ trendingResults, followResults, providers }) {
       <main className="flex min-h-screen text-white max-w-[1500px] mx-auto ">
         <Sidebar />
         <Feed />
+        <Widget
+          trendingResults={trendingResults}
+          followResults={followResults}
+        />
+
         {isopen && <Model />}
-        
       </main>
     </div>
   );
@@ -32,7 +37,7 @@ export async function getServerSideProps(context) {
   const trendingResults = await fetch("https://jsonkeeper.com/b/NKEV").then(
     (res) => res.json()
   );
-  
+
   const followResults = await fetch("https://jsonkeeper.com/b/WWMJ").then(
     (res) => res.json()
   );

@@ -26,7 +26,6 @@ function Model() {
   const [isOpen, setIsOpen] = useRecoilState(modelState);
   const [postId, setPostId] = useRecoilState(postIdState);
   const [post, setPost] = useState();
-  const [showEmojis, setShowEmogis] = useState(false);
   const [comment, setComment] = useState("");
   const router = useRouter();
 
@@ -43,7 +42,7 @@ function Model() {
 
     await addDoc(collection(db, "posts", postId, "comments"), {
       comment: comment,
-      username: session.user.username,
+      username: session.user.name,
       tag: session.user.tag,
       userImg: session.user.image,
       timestamp: serverTimestamp(),

@@ -6,20 +6,43 @@ import ShareIcon from "@mui/icons-material/Share";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { collection, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { useSession } from "next-auth/react";
 
 function Comment({ id, commentId, comment }) {
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   const [likes, setLikes] = useState([]);
   const [liked, setliked] = useState(false);
+  const [commentdelId, setcommentDelId] = useState([]);
 
   useEffect(
     () =>
-      onSnapshot(collection(db, "posts", id, "comments", commentId, 'likes'), (snapshot) => {
-        setLikes(snapshot.docs);
-      }),
+      onSnapshot(
+        doc(db, "posts", id, "comments", commentId),
+        (snapshot) => {
+          setcommentDelId(snapshot.data());
+        }
+      ),
+    [db, id]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        collection(db, "posts", id, "comments", commentId, "likes"),
+        (snapshot) => {
+          setLikes(snapshot.docs);
+        }
+      ),
     [db, id]
   );
 
@@ -30,14 +53,19 @@ function Comment({ id, commentId, comment }) {
       ),
     [likes]
   );
-  
+
   const likePost = async () => {
     if (liked) {
-      await deleteDoc(doc(db, "posts", id, "comments", commentId, 'likes', session.user.uid));
+      await deleteDoc(
+        doc(db, "posts", id, "comments", commentId, "likes", session.user.uid)
+      );
     } else {
-      await setDoc(doc(db, "posts", id, "comments", commentId, 'likes', session.user.uid), {
-        username: session.user.name,
-      });
+      await setDoc(
+        doc(db, "posts", id, "comments", commentId, "likes", session.user.uid),
+        {
+          username: session.user.name,
+        }
+      );
     }
   };
 
@@ -76,6 +104,25 @@ function Comment({ id, commentId, comment }) {
           <div className="icon group">
             <ChatIcon className="h-5 group-hover:text-[#1d9bf0]" />
           </div>
+
+          {session.user.uid === commentdelId.id ? (
+            <div
+              className="flex items-center space-x-1 group"
+              onClick={() => {
+                deleteDoc(doc(db, "posts", id, "comments", commentId));
+              }}
+            >
+              <div className="icon group-hover:bg-red-600/10">
+                <DeleteIcon className="h-5 group-hover:text-red-600" />
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-1 group">
+              <div className="icon group-hover:bg-green-500/10">
+                <CompareArrowsIcon className="h-5 group-hover:text-green-500" />
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center space-x-1 group" onClick={likePost}>
             <div className="icon group-hover:bg-pink-600/10">

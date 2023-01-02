@@ -53,10 +53,6 @@ function PostPage({ trendingResults, followResults, providers }) {
     [db]
   );
 
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
-
   return (
     <div className="">
       <Head>

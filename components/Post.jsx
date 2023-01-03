@@ -110,7 +110,7 @@ function Post({ id, post, postPage }) {
             </div>{" "}
             .{" "}
             <span className="hover:underline text-sm sm:text-[15px]">
-              <Moment fromNow>{post?.timestamp.toDate()}</Moment>
+              <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
             </span>
             {!postPage && (
               <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-0.5">
